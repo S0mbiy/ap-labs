@@ -35,22 +35,19 @@ Note that the answer must be a substring, `pwke` is a subsequence and not a subs
 
 Build Requirements
 ------------------
-```
-# Build Requirements here
-```
+These require any version of python 3 to run
 
 
 How to build
 ------------
-```
-# instructions here
-```
+Doesn't require build since its a python program
 
 
 How to Run
 ----------
+Insert the following command changing the desired argument to pass
 ```
-# instructions here
+python3 challenge1.py arg
 ```
 
 
@@ -67,4 +64,8 @@ How to submit your work
 ```
 GITHUB_USER=<your_github_user>  make submit
 ```
+
 More details at: [Classify API](../../classify.md)
+make submit
+```
+
