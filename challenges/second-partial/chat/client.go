@@ -15,7 +15,29 @@ import (
 
 //!+
 func main() {
-	conn, err := net.Dial("tcp", "localhost:8000")
+	var name, server string
+	var serverflag, userflag bool
+	for _, s := range os.Args {
+	    if s == "-user" {
+	        userflag=true
+			continue
+	    }else if userflag{
+			userflag= false
+			name = s
+		}
+		if s == "-server" {
+	        serverflag=true
+			continue
+	    }else if serverflag{
+			serverflag= false
+			server = s
+		}
+	}
+	if name == "" || server == ""{
+		log.Fatal("Missing username and server host")
+	}
+
+	conn, err := net.Dial("tcp", server)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,6 +47,10 @@ func main() {
 		log.Println("done")
 		done <- struct{}{} // signal the main goroutine
 	}()
+	_, erro := conn.Write([]byte(name))
+	if erro != nil {
+		log.Fatal(erro)
+	}
 	mustCopy(conn, os.Stdin)
 	conn.Close()
 	<-done // wait for background goroutine to finish
