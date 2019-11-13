@@ -34,3 +34,9 @@ How to submit your work
 GITHUB_USER=<your_github_user>  make submit
 ```
 More details at: [Classify API](../../classify.md)
+
+To run
+=======================
+```
+go get github.com/todostreaming/gopl.io/ch5/links
+```

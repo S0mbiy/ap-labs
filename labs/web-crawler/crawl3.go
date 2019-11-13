@@ -16,8 +16,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	"gopl.io/ch5/links"
+	"flag"
+	"regexp"
+	"github.com/todostreaming/gopl.io/ch5/links"
 )
 
 //!+sema
@@ -39,26 +40,40 @@ func crawl(url string) []string {
 
 //!-sema
 
+
+type work struct {
+level int
+list []string
+}
+
 //!+
 func main() {
-	worklist := make(chan []string)
+	var depth = flag.Int("depth", 1, "integer greater than 0")
+	flag.Parse()
+	worklist := make(chan work)
 	var n int // number of pending sends to worklist
 
 	// Start with the command-line arguments.
 	n++
-	go func() { worklist <- os.Args[1:] }()
+
+	go func() { worklist <- work{level: 1, list: os.Args[1:]}}()
 
 	// Crawl the web concurrently.
 	seen := make(map[string]bool)
+	var validLink = regexp.MustCompile(`^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$`)
 	for ; n > 0; n-- {
 		list := <-worklist
-		for _, link := range list {
-			if !seen[link] {
-				seen[link] = true
-				n++
-				go func(link string) {
-					worklist <- crawl(link)
-				}(link)
+		if list.level <= *depth {
+			for _, link := range list.list {
+				if validLink.MatchString(link){
+					if !seen[link]{
+						seen[link] = true
+						n++
+						go func(link string) {
+							worklist <- work{level: list.level+1, list: crawl(link)}
+						}(link)
+					}
+				}
 			}
 		}
 	}
