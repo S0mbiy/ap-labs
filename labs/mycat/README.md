@@ -1,5 +1,5 @@
 Lab - mycat
-===========
+======================
 
 Rewrite the `cat2.c` program by using `read`, `write`, `open` and `close` instead of their library equivalents.
 
