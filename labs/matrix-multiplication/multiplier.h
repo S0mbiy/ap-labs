@@ -1,0 +1,11 @@
+long * readMatrix(char *filename);
+long * getColumn(int col, long *matrix);
+long * getRow(int row, long *matrix);
+long dotProduct(long *vec1, long *vec2);
+void multiply(long *matA, long *matB);
+int saveResultMatrix(long *result);
+void initBuffers();
+int getLock();
+int releaseLock(int lock);
+void *storeResult(void *arg);
+void cleanup_handler(void *arg);

@@ -1,6 +1,6 @@
 CC       = gcc
 CFLAGS   = -Wall
-LDFLAGS  =
+LDFLAGS  = -lm -pthread
 OBJFILES = logger.o multiplier.o
 TARGET   = multiplier
 
